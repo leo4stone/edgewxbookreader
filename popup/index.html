@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      button{
+        background-color: transparent;
+        font-size: 40px;
+        border: 1px solid transparent;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      button:hover{
+        background-color: #efefef;
+        border-color: #efefef;
+      }
+      button.active{
+        background-color: #eee;
+        border-color: #aaa;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- <label>
+      <input type="checkbox" id="toolStatus">应用开启
+    </label> -->
+    <div style="text-align: center; padding: 20px; min-width: 200px;">
+      <div style="padding-bottom: 20px;">微信读书官网：<a href="https://weread.qq.com" style="color: #2886ff;" target="_blank">https://weread.qq.com</a></div>
+      <div style="display: flex; justify-content: center;">
+        <div>
+          <button id="btn_disable" title="恢复为电脑模式">🖥️</button>
+        </div>
+        <div style="width: 20px;"></div>
+        <div>
+          <button id="btn_enable" title="切换为kindle模式">📖</button>
+        </div>
+      </div>
+      <div style="padding-top: 20px; color: black; font-weight: 800;">点击上方按钮切换模式<br>切换后请刷新页面</div>
+      
+      <!-- <button id="btn_disable" style="display: none;">关闭</button> -->
+    </div>
+    <script src="bg.js"></script>
+  </body>
+</html>
