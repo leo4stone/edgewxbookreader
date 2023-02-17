@@ -39,8 +39,9 @@
     document.documentElement.appendChild(importantStyle);
   }
 
-
-  if(location.hostname==='weread.qq.com'){
+  var {ruleIsEnable}= await chrome.storage.local.get(["ruleIsEnable"])
+  // debugger
+  if(location.hostname==='weread.qq.com' && ruleIsEnable){
     uaScriptInit()
     toolStyleInit()    
     window.addEventListener('keyup',function(e){

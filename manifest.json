@@ -31,7 +31,7 @@
     "manifest_version": 3,
     "name": "微信读书朗读助手",
     "permissions": [ "storage", "declarativeNetRequest" ,"declarativeNetRequestFeedback", "tabs", "scripting"],
-    "version": "0.0.0.3",
+    "version": "0.0.0.4",
     "web_accessible_resources": [ {
        "matches": [ "*://*/*" ],
        "resources": [ "content_scripts/inject.js" ]

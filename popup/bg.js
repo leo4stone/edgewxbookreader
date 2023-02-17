@@ -4,7 +4,8 @@ function ruleStatusCheck(reloadTab){
     var ruleIds=rules.map((v)=>{
       return v.id
     });
-    if(ruleIds.indexOf(1)>=0){
+    var ruleIsEnable=ruleIds.indexOf(1)>=0
+    if(ruleIsEnable){
       // $btnEnable.style.display="none"
       // $btnDisable.style.display="inline"
       $btnEnable.className="active"
@@ -18,7 +19,10 @@ function ruleStatusCheck(reloadTab){
       $btnDisable.className="active"
     }
     console.log("getDynamicRules", rules)
-    reloadTab && chrome.runtime.sendMessage({action:'activeTabReload'})
+    chrome.storage.local.set({ ruleIsEnable }).then(() => {
+      reloadTab && chrome.runtime.sendMessage({action:'activeTabReload'})
+    });
+    
   });
 }
 ruleStatusCheck()

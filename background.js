@@ -57,9 +57,9 @@ chrome.runtime.onMessage.addListener((request , sender , sendResponse) => {
   }
 });
 
-chrome.runtime.onInstalled.addListener(() => {
-  chrome.declarativeNetRequest.onRuleMatchedDebug.addListener(function (res) {
-    console.log(JSON.stringify(res))
-  })
-  // console.log("modifyHeaders")
-})
+// chrome.runtime.onInstalled.addListener(() => {
+//   chrome.declarativeNetRequest.onRuleMatchedDebug.addListener(function (res) {
+//     console.log(JSON.stringify(res))
+//   })
+//   // console.log("modifyHeaders")
+// })
