@@ -20,7 +20,7 @@
             "run_at": "document_start"
         }
     ],
-    "description": "一个让浏览器模拟kindle环境的工具，方便浏览器朗读《微信读书》的文字内容",
+    "description": "让微信读书切换为墨水屏模式，书籍内容可以被浏览器的“大声朗读”功能所识别。支持按键翻页/文字选择/夜间模式",
     "host_permissions": [ "*://*/*", "ws://*/*", "wss://*/*" ],
     "icons": {
         "16": "icons/icon_16x16.png",
@@ -31,7 +31,7 @@
     "manifest_version": 3,
     "name": "微信读书朗读助手",
     "permissions": [ "storage", "declarativeNetRequest" ,"declarativeNetRequestFeedback", "tabs", "scripting"],
-    "version": "0.0.0.4",
+    "version": "0.0.0.5",
     "web_accessible_resources": [ {
        "matches": [ "*://*/*" ],
        "resources": [ "content_scripts/inject.js" ]

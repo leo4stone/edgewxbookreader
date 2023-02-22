@@ -21,23 +21,38 @@
     </style>
   </head>
   <body>
-    <!-- <label>
-      <input type="checkbox" id="toolStatus">应用开启
-    </label> -->
-    <div style="text-align: center; padding: 20px; min-width: 200px;">
-      <div style="padding-bottom: 20px;">微信读书官网：<a href="https://weread.qq.com" style="color: #2886ff;" target="_blank">https://weread.qq.com</a></div>
+    <div style="text-align: center; padding: 20px; min-width: 300px;">
+      <div style="padding-bottom: 20px;">微信读书官网：<a href="https://weread.qq.com/" style="color: #2886ff;" target="_blank">https://weread.qq.com/</a></div>
       <div style="display: flex; justify-content: center;">
+        <div style="width: 20px;"></div>
         <div>
-          <button id="btn_disable" title="恢复为电脑模式">🖥️</button>
+          <button id="btn_disable" title="恢复为默认模式">🖥️</button>
+          <div>默认模式</div>
         </div>
         <div style="width: 20px;"></div>
         <div>
-          <button id="btn_enable" title="切换为kindle模式">📖</button>
+          <button id="btn_enable" title="本模式支持“大声朗读”">📖</button>
+          <div>墨水屏模式</div>
         </div>
+        <div style="width: 20px;"></div>
       </div>
-      <div style="padding-top: 20px; color: black; font-weight: 800;">点击上方按钮切换模式<br>切换后请刷新页面</div>
-      
-      <!-- <button id="btn_disable" style="display: none;">关闭</button> -->
+      <div style="height: 20px;"></div>
+      <div id="kindleConfig">
+        <div style="display: flex; justify-content: center;">
+          <div style="width: 20px;"></div>
+          <div>
+            <button id="btn_bodyBlack" title="夜间模式">🌃</button>
+            <div>夜间主题</div>
+          </div>
+          <div style="width: 20px;"></div>
+          <div>
+            <button id="btn_textSelect" title="切换文字选择和划线模式">🔠</button>
+            <div>文字选择</div>
+          </div>
+          <div style="width: 20px;"></div>
+        </div>
+        <div id="btn_textSelect_console" style="padding-top: 20px; color: red; font-weight: 800;">文字选择功能已开启，鼠标翻页和划线功能暂不可用<br>请使用快捷键翻页（←/→/PageUp/PageDown）</div>
+      </div>
     </div>
     <script src="bg.js"></script>
   </body>

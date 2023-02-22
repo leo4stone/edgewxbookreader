@@ -16,12 +16,6 @@ async function activeTabReload(){
 }
 async function activeTabDiscard(){
   let [tab] = await chrome.tabs.query({ active: true, lastFocusedWindow: true });
-  // tab && (new URL(tab.url).hostname==='weread.qq.com') && chrome.tabs.discard({
-  //   tabId : tab.id,
-  //   callback : function(){
-  //     // location.reload()
-  //   },
-  // });
   tab && (new URL(tab.url).hostname==='weread.qq.com') && chrome.tabs.remove(tab.id);
 }
 
@@ -40,26 +34,23 @@ chrome.runtime.onMessage.addListener((request , sender , sendResponse) => {
         }
          else {
           sendResponse("updateDynamicRulesSuccess")
-          // chrome.declarativeNetRequest.getDynamicRules(rules => console.log("getDynamicRules", rules));
         }
       })
       break;
-    case 'activeTabReload':
+    case 'activeTabReload'://刷新当前标签
       console.log('bg activeTabReload')
       activeTabReload();
-
       break;
-    case 'activeTabDiscard':
+    case 'activeTabDiscard'://关闭当前标签
       console.log('bg activeTabDiscard')
       activeTabDiscard();
-
       break;
   }
 });
-
-// chrome.runtime.onInstalled.addListener(() => {
-//   chrome.declarativeNetRequest.onRuleMatchedDebug.addListener(function (res) {
-//     console.log(JSON.stringify(res))
-//   })
-//   // console.log("modifyHeaders")
-// })
+chrome.runtime.onInstalled.addListener(() => {
+  chrome.declarativeNetRequest.onRuleMatchedDebug.addListener(function (res) {
+    // console.log(JSON.stringify(res))
+    console.log(res.request.url)
+  })
+  // console.log("modifyHeaders")
+})

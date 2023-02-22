@@ -1,7 +1,9 @@
-
-// debugger
-// console.log(chrome.declarativeNetRequest)
 ;(async function(){
+
+  var {ruleIsEnable}= await chrome.storage.local.get(["ruleIsEnable"])
+  var {textSelectIsEnable}= await chrome.storage.local.get(["textSelectIsEnable"])
+  var {bodyTheme}= await chrome.storage.local.get(["bodyTheme"])
+
   function uaScriptInit(){
     var uaScript = document.createElement("script");
     uaScript.type = "text/javascript";
@@ -12,7 +14,7 @@
   }
   function toolStyleInit(){
     var importantStyle=document.createElement("style");
-    importantStyle.innerHTML=`
+    var styleText=`
     .readerPage .readerToolBar,
     .shelfContentContainer .shelfToolBar{
       transition: all .5s;
@@ -30,20 +32,51 @@
     .readerPage .readerToolBar:hover *{
       visibility: visible;
     }
-    /*
-    .readerContentRenderContainer .wr_abs{
-      user-select: all;
+    .readerContentRenderContainer img {
+      max-height: 100%;
+      object-fit: contain;
     }
-    */
     `
+    if(textSelectIsEnable){
+      styleText+=`
+      .readerPage#readerPage{
+        user-select: text;
+      }
+      `
+    }
+    if(bodyTheme==='black'){
+      styleText+=`
+      html{
+        filter: invert(100%) hue-rotate(180deg);
+      }
+      img,
+      video,
+      code {
+        filter: invert(100%) hue-rotate(180deg) contrast(100%);
+      }
+      `
+    }
+    
+
+    importantStyle.innerHTML=styleText
     document.documentElement.appendChild(importantStyle);
   }
-
-  var {ruleIsEnable}= await chrome.storage.local.get(["ruleIsEnable"])
-  // debugger
+  function pageClickEventStopPropagation(){
+    if(textSelectIsEnable){
+      setTimeout(()=>{
+        var $readerPage_InShelf=this.document.getElementById('readerPage_InShelf')
+        $readerPage_InShelf && $readerPage_InShelf.addEventListener('click',function(e){
+          e.stopPropagation();
+        })
+      },10);
+    }
+  }
+  console.log('ruleIsEnable1',ruleIsEnable)
   if(location.hostname==='weread.qq.com' && ruleIsEnable){
     uaScriptInit()
-    toolStyleInit()    
+    toolStyleInit()
+    pageClickEventStopPropagation()
+    
     window.addEventListener('keyup',function(e){
       switch(e.key){
         case 'PageUp':
@@ -63,20 +96,5 @@
           })
       }
     })
-    // debugger
   }
 })();
-
-/*
-chrome.runtime.onMessage.addListener(
-  function (request, sender, sendResponse) {
-    console.log(sender.tab ?
-      "from a content script:" + sender.tab.url :
-      "from the extension");
-    if (request.greeting === "getWxBookContent") {
-      var strs = document.getElementById('readerContentRenderContainer').innerText.replace(/\n/g, '');
-      sendResponse({ farewell: strs });
-    }
-  }
-);
-*/
