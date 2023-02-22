@@ -16,6 +16,6 @@
 ### 主界面
 ![主界面](store_imgs/popup.png) 
 ### 书架
-![书架](store_imgs/bookList.png) 
+![书架](store_imgs/booklist.png) 
 ### 正文
 ![正文](store_imgs/bookcontent.png) 
