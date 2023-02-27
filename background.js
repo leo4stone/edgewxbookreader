@@ -1,10 +1,3 @@
-  
-// async function getCurrentTab() {
-//   let queryOptions = { active: true, lastFocusedWindow: true };
-//   // `tab` will either be a `tabs.Tab` instance or `undefined`.
-//   let [tab] = await chrome.tabs.query(queryOptions);
-//   return tab;
-// }
 async function activeTabReload(){
   let [tab] = await chrome.tabs.query({ active: true, lastFocusedWindow: true });
   tab && (new URL(tab.url).hostname==='weread.qq.com') && chrome.scripting.executeScript({
@@ -21,10 +14,7 @@ async function activeTabDiscard(){
 
 
 chrome.runtime.onMessage.addListener((request , sender , sendResponse) => {
-  const { action, payload } = request;
-  // console.log(action, payload,"background got!");
-  // debugger
-  
+  const { action, payload } = request;  
   switch(action){
     case 'declarativeNetRequestUpdateRules':
       var addRules=payload
@@ -47,10 +37,10 @@ chrome.runtime.onMessage.addListener((request , sender , sendResponse) => {
       break;
   }
 });
+/*
 chrome.runtime.onInstalled.addListener(() => {
   chrome.declarativeNetRequest.onRuleMatchedDebug.addListener(function (res) {
-    // console.log(JSON.stringify(res))
     console.log(res.request.url)
   })
-  // console.log("modifyHeaders")
 })
+*/

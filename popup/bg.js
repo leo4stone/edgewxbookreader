@@ -21,7 +21,7 @@ function ruleStatusCheck(reloadTab){
       $btnDisable.className="active"
       $kindleConfig.style.display='none';
     }
-    console.log("getDynamicRules", rules)
+    // console.log("getDynamicRules", rules)
     chrome.storage.local.set({ ruleIsEnable }).then(() => {
       reloadTab && chrome.runtime.sendMessage({action:'activeTabReload'})
     });
@@ -41,7 +41,7 @@ function bodyThemeStatusCheck(){
 }
 function textSelectStatusCheck(){
   chrome.storage.local.get(['textSelectIsEnable'], function(result) {
-    console.log('textSelectStatusCheck',result)
+    // console.log('textSelectStatusCheck',result)
     if(result.textSelectIsEnable){
       $btnTextSelect.className="active"
       $btnTextSelectConsole.style.display='';
@@ -52,6 +52,25 @@ function textSelectStatusCheck(){
   });
 }
 ruleStatusCheck();
+
+async function activeTabThemeUpdate(){
+  let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+  tab && (new URL(tab.url).hostname==='weread.qq.com') && chrome.tabs.sendMessage(tab.id,"themeUpdate", function(response){
+    //assuming that info was html markup then you could do
+    // document.body.innerhtml = response;
+    //I personally wouldn't do it like this but you get the idea
+  });
+}
+
+async function activeTabTextSelectUpdate(){
+  let [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
+  tab && (new URL(tab.url).hostname==='weread.qq.com') && chrome.tabs.sendMessage(tab.id,"textSelectUpdate", function(response){
+    //assuming that info was html markup then you could do
+    // document.body.innerhtml = response;
+    //I personally wouldn't do it like this but you get the idea
+  });
+}
+
 var dRules={
   "removeRuleIds": [1,2],
   "addRules": [],
@@ -111,6 +130,7 @@ $btnEnable.onclick = function () {
     ruleStatusCheck(true)
   })
 }
+
 $btnDisable.onclick = function () {
   chrome.runtime.sendMessage({
     action: 'declarativeNetRequestUpdateRules',
@@ -121,24 +141,23 @@ $btnDisable.onclick = function () {
     ruleStatusCheck(true)
   })
 }
-function textSelectStatusChange(){
-  chrome.storage.local.get(['textSelectIsEnable'], function(result) {
-    chrome.storage.local.set({ textSelectIsEnable:!result.textSelectIsEnable }).then(() => {
-      chrome.runtime.sendMessage({action:'activeTabReload'})
-      textSelectStatusCheck()
-    });
-  });
+async function textSelectStatusChange(){
+  var {textSelectIsEnable}=await chrome.storage.local.get(['textSelectIsEnable'])
+  await chrome.storage.local.set({ textSelectIsEnable:!textSelectIsEnable });
+  await activeTabTextSelectUpdate();
+  textSelectStatusCheck();
 }
 textSelectStatusCheck();
 $btnTextSelect.onclick = function () {
   textSelectStatusChange();
 }
-$btnBodyBlack.onclick = function () {
-  chrome.storage.local.get(['bodyTheme'], function(result) {
-    var targetTheme=result.bodyTheme!=='black'?'black':''
-    chrome.storage.local.set({ bodyTheme:targetTheme }).then(() => {
-      chrome.runtime.sendMessage({action:'activeTabReload'})
-      bodyThemeStatusCheck()
-    });
-  });
+
+// page
+$btnBodyBlack.onclick = async function () {
+  var {bodyTheme}=await chrome.storage.local.get(['bodyTheme']);
+  var targetTheme=bodyTheme!=='black'?'black':'';
+  await chrome.storage.local.set({ bodyTheme:targetTheme });
+  await activeTabThemeUpdate();
+  // chrome.runtime.sendMessage({action:'toolStyleUpdate',payload:{}});
+  bodyThemeStatusCheck();
 } 
