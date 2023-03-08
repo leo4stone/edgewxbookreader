@@ -1,0 +1,28 @@
+{
+  "name": "edgewxbookreader",
+  "version": "1.0.0",
+  "description": "*注：本插件不提供语音朗读功能，请配合浏览器自带朗读功能使用。*",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "npx webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wfesorg/edgewxbookreader.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wfesorg/edgewxbookreader/issues"
+  },
+  "homepage": "https://github.com/wfesorg/edgewxbookreader#readme",
+  "devDependencies": {
+    "filemanager-webpack-plugin": "^8.0.0",
+    "rimraf": "^4.1.2",
+    "webpack-cli": "^5.0.1"
+  },
+  "dependencies": {
+    "webpack": "^5.75.0"
+  }
+}

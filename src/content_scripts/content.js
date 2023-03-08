@@ -1,5 +1,27 @@
 ;(async function(){
-  var {ruleIsEnable}= await chrome.storage.local.get(["ruleIsEnable"])
+  var {ruleIsEnable}= await chrome.storage.local.get(["ruleIsEnable"]);
+  function bodyAlert(str){
+    var $alert=document.createElement("div");
+    $alert.innerHTML=str;
+    $alert.style.cssText=`
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translate(-50%, -100%);
+      padding: 10px;
+      margin-top: -20px;
+      background-color: rgba(0,0,0,1);
+      color: #fff;
+      text-align: center;
+      border-radius: 5px;
+      z-index: 100;
+      pointer-events: none;
+    `;
+    document.body.appendChild($alert);
+    setTimeout(()=>{
+      $alert.remove();
+    },2000);
+  }
   function uaInit(){
     var uaScript = document.createElement("script");
     uaScript.type = "text/javascript";
@@ -59,35 +81,43 @@
   }
   function themeInit(){
     var $dom=document.createElement("style");
-    var update= async function(){
+    var update= async function(showAnimation){
       var styleText=`
       .readerPage#readerPage .wr_abs::selection{
         background-color: #bbb;
       }`
-      var {bodyTheme}= await chrome.storage.local.get(["bodyTheme"])
-      if(bodyTheme==='black'){
+      if(showAnimation){
         styleText+=`
         html{
           transition: all .5s;
-          filter: invert(100%) hue-rotate(180deg);
         }
         img,
         video,
         code {
           transition: all .5s;
+        }
+        `
+      }
+      var {bodyTheme}= await chrome.storage.local.get(["bodyTheme"])
+      if(bodyTheme==='black'){
+        styleText+=`
+        html{
+          filter: invert(100%) hue-rotate(180deg);
+        }
+        img,
+        video,
+        code {
           filter: invert(100%) hue-rotate(180deg) contrast(100%);
         }
         `
       }else{
         styleText+=`
         html{
-          transition: all 2s;
           filter: none;
         }
         img,
         video,
         code {
-          transition: all 2s;
           filter: none;
         }
         `
@@ -184,10 +214,20 @@
     
     setTimeout(()=>{
       var $readerPage_InShelf=this.document.getElementById('readerPage_InShelf')
+      var mouseDownSelectedText=''
+      $readerPage_InShelf && $readerPage_InShelf.addEventListener('mousedown',function(e){
+        if(textSelectStatus){
+          mouseDownSelectedText=window.getSelection().toString();
+        }
+      });
       $readerPage_InShelf && $readerPage_InShelf.addEventListener('click',function(e){
         if(textSelectStatus){
           e.stopPropagation();
-          update(true,true);
+          var mouseClickSelectedText=window.getSelection().toString();
+          if(!mouseDownSelectedText && !mouseClickSelectedText){
+            bodyAlert('请使用快捷键翻页（←/→/PageUp/PageDown）')
+            update(true,true);
+          }
         }
       });
     },10);
@@ -209,7 +249,7 @@
       // debugger
       switch(action){
         case 'themeUpdate':
-          themeUpdate();
+          themeUpdate(true);
           break;
         case 'textSelectUpdate':
           textSelectUpdate(true);
