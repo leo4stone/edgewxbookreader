@@ -33,6 +33,47 @@
   function styleInit(){
     var $dom=document.createElement("style");
     var styleText=`
+    @keyframes toolBarBallFlash {
+      0% {
+        opacity: 0.4;
+      }
+      50% {
+        opacity: 0.6;
+      }
+      100% {
+        opacity: 0.4;
+      }
+    }
+    @keyframes toolBarBallRoll {
+      40% {
+        width: 40px;
+        height: 4px;
+      }
+      50% {
+        width: 60px;
+        height: 2px;
+      }
+      60% {
+        width: 40px;
+        height: 4px;
+      }
+    }
+    .shelfContentContainer:before,
+    .readerPageScroll:before {
+      content: "";
+      position: absolute;
+      width: 40px;
+      height: 4px;
+      left: 50%;
+      top: 100%;
+      transform: translate(-50%, -50%);
+      margin-top: -20px;
+      background-color: rgba(0,0,0,1);
+      border-radius: 100px;
+      opacity: 0.4;
+      animation: toolBarBallFlash 1s ease-in-out infinite,toolBarBallRoll 8s ease-in-out infinite;
+      pointer-events: none;
+    }
     .readerPage .readerToolBar,
     .shelfContentContainer .shelfToolBar{
       transition: all .5s;
